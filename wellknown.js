@@ -254,12 +254,17 @@ function stringify (gj) {
     case 'Point':
       if (gj.coordinates.length == 3)
         return 'POINT Z (' + pairWKT(gj.coordinates) + ')';
-      else if (gj.coordinates.length == 2)
-        return 'POINT (' + pairWKT(gj.coordinates) + ')';
-      throw new Error("Invalid coordinates for point provided");
+
+      return 'POINT (' + pairWKT(gj.coordinates) + ')';
     case 'LineString':
+      if (gj.coordinates[0].length == 3)
+        return 'LINESTRING Z (' + ringWKT(gj.coordinates) + ')';
+
       return 'LINESTRING (' + ringWKT(gj.coordinates) + ')';
     case 'Polygon':
+      if (gj.coordinates[0][0].length == 3)
+        return 'POLYGON Z (' + ringsWKT(gj.coordinates) + ')';
+
       return 'POLYGON (' + ringsWKT(gj.coordinates) + ')';
     case 'MultiPoint':
       return 'MULTIPOINT (' + ringWKT(gj.coordinates) + ')';
